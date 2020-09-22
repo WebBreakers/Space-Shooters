@@ -38,6 +38,7 @@ public class Player : MonoBehaviour
     private AudioClip _laserSoundClip;
     [SerializeField]
     private AudioSource _audioSource;
+    private float _thruster;
 
 
     // Start is called before the first frame update
@@ -51,6 +52,7 @@ public class Player : MonoBehaviour
         _leftEngineAnim = _leftEngineFire.GetComponent<Animator>();
         _rightEngineAnim = _rightEngineFire.GetComponent<Animator>();
         _uiManger = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _thruster = 3f;
         _audioSource = GetComponent<AudioSource>();
         
         
@@ -102,6 +104,7 @@ public class Player : MonoBehaviour
         {
             FireLaser();
         }
+       
     }
 
 
@@ -114,7 +117,7 @@ public class Player : MonoBehaviour
 
         if(_isSpeedEnabled == true)
         {
-            _speed = 8.0f;
+            _speed = 10.0f;
             transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime);
         }
 
@@ -124,6 +127,10 @@ public class Player : MonoBehaviour
             transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime);
         }
         
+        if(Input.GetKey(KeyCode.LeftShift))
+        {
+            transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * (_speed * _thruster) * Time.deltaTime);
+        }
 
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, -9, 9), Mathf.Clamp(transform.position.y, -3.7f, 0),0);     
       
