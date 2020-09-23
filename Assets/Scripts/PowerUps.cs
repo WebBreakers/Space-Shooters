@@ -64,6 +64,7 @@ public class PowerUps : MonoBehaviour
                     case 2:
                         
                         player.ShieldsEnabled();
+                        player.SetShieldStrength();
                         break;
 
                     default:

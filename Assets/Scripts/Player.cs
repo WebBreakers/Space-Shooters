@@ -39,6 +39,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioSource _audioSource;
     private float _thruster;
+    [SerializeField]
+    private int _shieldStrength;
 
 
     // Start is called before the first frame update
@@ -47,6 +49,7 @@ public class Player : MonoBehaviour
        
         _score = 0;
         _shield.SetActive(false);
+        _shieldStrength = 3;
         _leftEngineFire.SetActive(false);
         _rightEngineFire.SetActive(false);
         _leftEngineAnim = _leftEngineFire.GetComponent<Animator>();
@@ -165,8 +168,13 @@ public class Player : MonoBehaviour
         //return
         if(_isShieldEnabled == true)
         {
-            _isShieldEnabled = false;
-            _shield.SetActive(false);
+            DamageShieldStrength();
+            if(_shieldStrength < 1)
+            {
+                _isShieldEnabled = false;
+                _shield.SetActive(false);
+            }
+           
             return;
         }
 
@@ -226,6 +234,7 @@ public class Player : MonoBehaviour
     {
         _isShieldEnabled = true;
         _shield.SetActive(true);
+        _shield.GetComponent<SpriteRenderer>().material.color = Color.red;
        
        
         
@@ -243,6 +252,16 @@ public class Player : MonoBehaviour
             Damage();
             Destroy(other.gameObject);
         }
+    }
+
+    public void DamageShieldStrength()
+    {
+        _shieldStrength -= 1;
+    }
+
+    public void SetShieldStrength()
+    {
+        _shieldStrength = 3;
     }
 
 }
