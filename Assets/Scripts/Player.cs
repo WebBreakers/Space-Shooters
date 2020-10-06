@@ -41,6 +41,11 @@ public class Player : MonoBehaviour
     private float _thruster;
     [SerializeField]
     private int _shieldStrength;
+    [SerializeField]
+    private int _ammoCount;
+    [SerializeField]
+    private bool _outOfAmmo;
+
 
 
     // Start is called before the first frame update
@@ -48,6 +53,8 @@ public class Player : MonoBehaviour
     {
        
         _score = 0;
+        _ammoCount = 15;
+        _outOfAmmo = false;
         _shield.SetActive(false);
         _shieldStrength = 3;
         _leftEngineFire.SetActive(false);
@@ -103,7 +110,7 @@ public class Player : MonoBehaviour
 
         
         //key code plus cool down system
-        if (Input.GetKeyDown(KeyCode.Space)&& Time.time > _canFire)
+        if (Input.GetKeyDown(KeyCode.Space)&& (Time.time > _canFire) && (_outOfAmmo == false))
         {
             FireLaser();
         }
@@ -157,6 +164,7 @@ public class Player : MonoBehaviour
         }
 
         _audioSource.Play();
+        DecreaseAmmoCount();
         
         
     }
@@ -262,6 +270,17 @@ public class Player : MonoBehaviour
     public void SetShieldStrength()
     {
         _shieldStrength = 3;
+    }
+
+    public void DecreaseAmmoCount()
+    {
+        _ammoCount -= 1;
+        _uiManger.UpdateAmmo(_ammoCount);
+        if(_ammoCount < 1)
+        {
+            
+            _outOfAmmo = true;
+        }
     }
 
 }
