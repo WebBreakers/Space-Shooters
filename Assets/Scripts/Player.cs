@@ -282,5 +282,12 @@ public class Player : MonoBehaviour
             _outOfAmmo = true;
         }
     }
+    public void AddAmmoCount()
+    {
+        
+        _outOfAmmo = false;
+        _ammoCount = 15;
+        _uiManger.UpdateAmmo(_ammoCount);
+    }
 
 }
