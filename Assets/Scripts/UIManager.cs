@@ -11,6 +11,10 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Text _ammoCount;
     [SerializeField]
+    private Text _bonusLives;
+    [SerializeField]
+    private int _bLife;
+    [SerializeField]
     private int _score;
     [SerializeField]
     private Image _livesImg;
@@ -34,8 +38,10 @@ public class UIManager : MonoBehaviour
         }
         _gameOvertxt.gameObject.SetActive(false);
         _scoreText.text = "Score: 0";
+        _bonusLives.text = "Bonus Lives: 0";
         _restartTxt.gameObject.SetActive(false);
         _ammoCount.text = "Ammo: 15";
+        _bLife = 0;
     }
 
     // Update is called once per frame
@@ -57,10 +63,22 @@ public class UIManager : MonoBehaviour
     {
         _ammoCount.text = "Ammo: " + ammoCount;
     }
+    public void UpdateBonusLives(int bLives)
+    {
+        _bonusLives.text = "Bonus Lives: " + ++bLives;
+    }
 
     public void UpdateLives(int currentLives)
     {
-        _livesImg.sprite = _livesSprite[currentLives];
+        if(currentLives >=4) 
+        {
+            _bonusLives.text = "Bonus Lives: " + ++_bLife;
+        }
+        else
+        {
+            _livesImg.sprite = _livesSprite[currentLives];
+        }
+        
         if (currentLives == 0)
         {
             GameOverSequence();
@@ -91,6 +109,11 @@ public class UIManager : MonoBehaviour
         _restartTxt.gameObject.SetActive(true);
         StartCoroutine(GameOverFlckerRoutine());
         
+    }
+
+    public void DecreaseBonusLife()
+    {
+        _bonusLives.text = "Bonus Lives: " + --_bLife;
     }
 }
 

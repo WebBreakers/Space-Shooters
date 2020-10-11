@@ -45,6 +45,8 @@ public class Player : MonoBehaviour
     private int _ammoCount;
     [SerializeField]
     private bool _outOfAmmo;
+    [SerializeField]
+    private int _bonusLives;//TBI
 
 
 
@@ -53,7 +55,8 @@ public class Player : MonoBehaviour
     {
        
         _score = 0;
-        _ammoCount = 15;
+        _ammoCount = 1000;
+        _bonusLives = 0;//TBI
         _outOfAmmo = false;
         _shield.SetActive(false);
         _shieldStrength = 3;
@@ -185,10 +188,17 @@ public class Player : MonoBehaviour
            
             return;
         }
-
+        if(_lives > 3)
+        {
+            _lives -= 1;
+            _uiManger.DecreaseBonusLife();
+            return;
+        }
         
-        _lives -= 1;
-        _uiManger.UpdateLives(_lives);
+            _lives -= 1;
+            _uiManger.UpdateLives(_lives);
+        
+        
 
         if(_lives == 2)
         {
@@ -288,6 +298,38 @@ public class Player : MonoBehaviour
         _outOfAmmo = false;
         _ammoCount = 15;
         _uiManger.UpdateAmmo(_ammoCount);
+    }
+    public void UpdateLives()//to be implemented
+    {
+        switch (_lives)
+        {
+            case 1:
+                Debug.Log("2 lives now");
+                _lives++;
+                _uiManger.UpdateLives(_lives);
+                _rightEngineAnim.ResetTrigger("RightEngineTrigger");
+                _rightEngineFire.SetActive(false);
+                
+                break;
+            case 2:
+                Debug.Log("3 lives now");
+                _lives++;
+                _uiManger.UpdateLives(_lives);
+                _leftEngineAnim.ResetTrigger("LeftEngineTrigger");
+                _leftEngineFire.SetActive(false);
+                break;
+            case 3:
+                _lives++;
+                _uiManger.UpdateLives(_lives);
+                break;
+          
+            default:
+                _lives++;
+                _uiManger.UpdateLives(_lives);
+                break;
+        }
+        
+        
     }
 
 }

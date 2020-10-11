@@ -71,6 +71,10 @@ public class PowerUps : MonoBehaviour
                         player.AddAmmoCount();
                         break;
 
+                    case 4:
+                        player.UpdateLives();
+                        break;
+
                     default:
                         Debug.Log("Default Called");
                         break;
